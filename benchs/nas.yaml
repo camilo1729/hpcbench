@@ -1,23 +1,22 @@
 name: nas-omp
-prepare: >
-	 wget https://www.nas.nasa.gov/assets/npb/NPB3.3.1.tar.gz
-	 tar -xvf NPB3.3.1.tar.gz
-	 cd NPB3.3.1/NPB3.3-OMP/
-	 cp config/make.def.template config/make.def
-	 
+prepare: |
+  wget https://www.nas.nasa.gov/assets/npb/NPB3.3.1.tar.gz
+  tar -xvf NPB3.3.1.tar.gz
+  cd NPB3.3.1/NPB3.3-OMP/
+  cp config/make.def.template config/make.def
 workdir: "NPB3.3.1/NPB3.3-OMP/"
 benchs:
-	- name: cgC
-	  desc: "Benchmark cg C size"
-	  compile: "make cg CLASS=C F77=ifort FFLAGS=-fopenmp FLINKFLAGS=-fopenmp"
-	  run: "bin/cg.C.x" 
+  - name: cgC
+    desc: "Benchmark cg C size"
+    compile: "make cg CLASS=C F77=gfortran FFLAGS=-fopenmp FLINKFLAGS=-fopenmp"
+    run: "bin/cg.C.x"
 
-	- name: luC
-	  desc: "LU factorization"
-	  compile: "make lu CLASS=C F77=ifort FFLAGS=-fopenmp FLINKFLAGS=-fopenmp"
-	  run: "bin/lu.C.x"
+  - name: luC
+    desc: "LU factorization"
+    compile: "make lu CLASS=C F77=gfortran FFLAGS=-fopenmp FLINKFLAGS=-fopenmp"
+    run: "bin/lu.C.x"
 
-	- name: ftB
-	  desc: "Furier transform"
-	  compile: "make ft CLASS=B F77=ifort FFLAGS=-fopenmp FLINKFLAGS=-fopenmp"
-	  run: "bin/ft.B.x"
+  - name: ftB
+    desc: "Furier transform"
+    compile: "make ft CLASS=B F77=gfortran FFLAGS=-fopenmp FLINKFLAGS=-fopenmp"
+    run: "bin/ft.B.x"
