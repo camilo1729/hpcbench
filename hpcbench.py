@@ -11,7 +11,9 @@ bench_path = os.path.join(project_dir_name,"benchs")
 print os.path.abspath(__file__)
 
 nas = Config_parser(os.path.join(bench_path,"nas.yaml"))
+nas_mpi = Config_parser(os.path.join(bench_path,"nas-mpi.yaml"))
 stream = Config_parser(os.path.join(bench_path,"stream.yaml"))
+iozone = Config_parser(os.path.join(bench_path,"iozone.yaml"))
 
 print nas.name()
 print nas.prepare()
@@ -24,8 +26,8 @@ print benchdir.path
 
 stream.list_bench()
 
-run = Executor(nas,benchdir.path)
+run = Executor(iozone,benchdir.path)
 
 run.download()
 run.prepare()
-run.run(2)
+run.run(0)

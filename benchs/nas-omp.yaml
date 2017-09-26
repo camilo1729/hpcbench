@@ -1,0 +1,53 @@
+name: nas-omp
+download: |
+  wget https://www.nas.nasa.gov/assets/npb/NPB3.3.1.tar.gz
+prepare: |
+  tar -xvf NPB3.3.1.tar.gz
+  cd NPB3.3.1/NPB3.3-OMP/
+  cp config/make.def.template config/make.def
+workdir: "NPB3.3.1/NPB3.3-OMP/"
+benchs:
+  - name: cgC
+    desc: "Benchmark cg C size"
+    compile: "make cg CLASS=C F77=gfortran FFLAGS=-fopenmp FLINKFLAGS=-fopenmp"
+    run: "bin/cg.C.x"
+
+  - name: cgB
+    desc: "Benchmark cg B size"
+    compile: "make cg CLASS=B F77=gfortran FFLAGS=-fopenmp FLINKFLAGS=-fopenmp"
+    run: "bin/cg.B.x"
+
+  - name: cgA
+    desc: "Benchmark cg A size"
+    compile: "make cg CLASS=A F77=gfortran FFLAGS=-fopenmp FLINKFLAGS=-fopenmp"
+    run: "bin/cg.A.x"
+
+  - name: luC
+    desc: "LU factorization"
+    compile: "make lu CLASS=C F77=gfortran FFLAGS=-fopenmp FLINKFLAGS=-fopenmp"
+    run: "bin/lu.C.x"
+
+  - name: ftB
+    desc: "Furier transform"
+    compile: "make ft CLASS=B F77=gfortran FFLAGS=-fopenmp FLINKFLAGS=-fopenmp"
+    run: "bin/ft.B.x"
+
+  - name: epA
+    desc: "Embarrassingly Parallel"
+    compile: "make ep CLASS=A F77=gfortran FFLAGS=-fopenmp FLINKFLAGS=-fopenmp"
+    run: "bin/ep.A.x"
+
+  - name: isA
+    desc: "Integer Sort"
+    compile: "make is CLASS=A F77=gfortran FFLAGS=-fopenmp FLINKFLAGS=-fopenmp"
+    run: "bin/is.A.x"
+
+  - name: mgA
+    desc: "MultiGrid"
+    compile: "make mg CLASS=A F77=gfortran FFLAGS=-fopenmp FLINKFLAGS=-fopenmp"
+    run: "bin/mg.A.x"
+
+  - name: spA
+    desc: "Scalar Pentadiagonal"
+    compile: "make sp CLASS=A F77=gfortran FFLAGS=-fopenmp FLINKFLAGS=-fopenmp"
+    run: "bin/sp.A.x"

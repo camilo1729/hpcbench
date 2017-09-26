@@ -24,10 +24,12 @@ class Executor:
           p=subprocess.Popen(cmd, shell=True, cwd=self.bench_dir,stdout=subprocess.PIPE, stderr=subprocess.STDOUT)
           for line in p.stdout.readlines():
             print line
+          p.wait()
+          if p.returncode == 0:
+            file = open(ready_file,"w")
+            file.write("OK")
+            file.close()
 
-          file = open(ready_file,"w")
-          file.write("OK")
-          file.close()
 
     def prepare(self):
       cmd_array = self.bench_config.prepare()
