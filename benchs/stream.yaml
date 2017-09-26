@@ -1,15 +1,15 @@
 name: stream
-prepare: >
-	 wget https://www.cs.virginia.edu/stream/FTP/Code/stream.c
-	 wget https://www.cs.virginia.edu/stream/FTP/Code/Makefile
-workdir:
+download: |
+  wget https://www.cs.virginia.edu/stream/FTP/Code/stream.c
+  wget https://www.cs.virginia.edu/stream/FTP/Code/Makefile
+workdir: "."
 benchs:
-	- name: stream1
-	  desc: "Stream with array size of 10000 and repated 10000"
-	  compile: "gcc -o stream1 stream.c -DSTREAM_ARRAY_SIZE=10000 -DNTIMES=100000"
-	  run: "stream1" 
+  - name: stream1
+    desc: "Stream with array size of 10000 and repated 10000"
+    compile: "gcc -o stream1 stream.c -DSTREAM_ARRAY_SIZE=10000 -DNTIMES=100000"
+    run: "./stream1"
 
-	- name: stream2
-	  desc: "Stream with array size of 20000 and repated 10000"
-	  compile: "gcc -o stream2 stream.c -DSTREAM_ARRAY_SIZE=20000 -DNTIMES=100000"
-	  run: "stream2" 
+  - name: stream2
+    desc: "Stream with array size of 20000 and repated 10000"
+    compile: "gcc -o stream2 stream.c -DSTREAM_ARRAY_SIZE=20000 -DNTIMES=100000"
+    run: "./stream2"

@@ -1,6 +1,7 @@
 name: nas-omp
-prepare: |
+download: |
   wget https://www.nas.nasa.gov/assets/npb/NPB3.3.1.tar.gz
+prepare: |
   tar -xvf NPB3.3.1.tar.gz
   cd NPB3.3.1/NPB3.3-OMP/
   cp config/make.def.template config/make.def

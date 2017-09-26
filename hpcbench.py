@@ -9,10 +9,12 @@ from hpcbench.executor import Executor
 project_dir_name =  os.path.dirname(os.path.abspath(__file__))
 bench_path = os.path.join(project_dir_name,"benchs")
 print os.path.abspath(__file__)
-p = Config_parser(os.path.join(bench_path,"nas.yaml"))
 
-print p.name()
-print p.prepare()
+nas = Config_parser(os.path.join(bench_path,"nas.yaml"))
+stream = Config_parser(os.path.join(bench_path,"stream.yaml"))
+
+print nas.name()
+print nas.prepare()
 
 # Initialize directory
 
@@ -20,9 +22,10 @@ benchdir= Benchdir(os.getcwd())
 
 print benchdir.path
 
-p.list_bench()
+stream.list_bench()
 
-run = Executor(p,benchdir.path)
+run = Executor(nas,benchdir.path)
 
-run.run(0)
-#run.compile()
+run.download()
+run.prepare()
+run.run(2)

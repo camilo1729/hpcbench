@@ -2,6 +2,9 @@
 
 import os
 import subprocess
+import time
+from datetime import datetime
+import socket
 
 class Executor:
 
@@ -11,11 +14,37 @@ class Executor:
         if not os.path.exists(self.bench_dir):
             os.makedirs(self.bench_dir)
 
-    def compile(self):
-        cmd = ";".join(self.bench_config.prepare())
+    def download(self):
+        ## create file to not download twice
+        ready_file = os.path.join(self.bench_dir,".downloaded_ok")
+        if os.path.exists(ready_file) :
+          print "Already download skipping in workdir directory..."
+        else:
+          cmd = ";".join(self.bench_config.download())
+          p=subprocess.Popen(cmd, shell=True, cwd=self.bench_dir,stdout=subprocess.PIPE, stderr=subprocess.STDOUT)
+          for line in p.stdout.readlines():
+            print line
+
+          file = open(ready_file,"w")
+          file.write("OK")
+          file.close()
+
+    def prepare(self):
+      cmd_array = self.bench_config.prepare()
+      if cmd_array :
+        cmd = ";".join(cmd_array)
         p=subprocess.Popen(cmd, shell=True, cwd=self.bench_dir,stdout=subprocess.PIPE, stderr=subprocess.STDOUT)
         for line in p.stdout.readlines():
-            print line
+          print line
+      else:
+        return 0
+
+    def gen_run_info(self):
+        captured_time = datetime.now()
+        hostname = socket.gethostname()
+        self.header = "captured on: {0}\n".format(captured_time)
+        self.header+= "hostname: {0}\n".format(hostname)
+        self.header+= "==========hpcbench=================\n"
 
     def run(self,cmd_id):
         list_cmd = self.bench_config.benchs()
@@ -28,7 +57,9 @@ class Executor:
         for line in p.stdout.readlines():
             print line
         print "Running bench ..."
+        output_filename = os.path.join(self.bench_dir,"{2}-{0}-{1}".format(self.bench_config.name(),int(time.time()),bench_to_run['name']))
+        output = open(output_filename, 'w')
+        self.gen_run_info()
+        output.write(self.header)
         cmd = bench_to_run['run']
-        p=subprocess.Popen(cmd, shell=True, cwd=workdir_exe,stdout=subprocess.PIPE, stderr=subprocess.STDOUT)
-        for line in p.stdout.readlines():
-            print line
+        p=subprocess.Popen(cmd, shell=True, cwd=workdir_exe,stdout=output, stderr=subprocess.STDOUT)
