@@ -1,7 +1,7 @@
 #!/usr/bin/python
 
 import yaml
-
+import os
 
 class Config_parser(object):
     """docstrConfig_parser"""
@@ -17,6 +17,10 @@ class Config_parser(object):
 
           exit(1)
 
+        self.path = os.path.dirname(file_name)
+
+    def path(self):
+      return self.path
     def name(self):
         return self.config['name']
 
