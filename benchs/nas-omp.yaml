@@ -37,6 +37,11 @@ benchs:
     compile: "make ep CLASS=A F77=gfortran FFLAGS=-fopenmp FLINKFLAGS=-fopenmp"
     run: "bin/ep.A.x"
 
+  - name: epB
+    desc: "Embarrassingly Parallel"
+    compile: "make ep CLASS=B F77=gfortran FFLAGS=-fopenmp FLINKFLAGS=-fopenmp"
+    run: "bin/ep.B.x"
+
   - name: isA
     desc: "Integer Sort"
     compile: "make is CLASS=A F77=gfortran FFLAGS=-fopenmp FLINKFLAGS=-fopenmp"
