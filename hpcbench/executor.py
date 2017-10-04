@@ -61,7 +61,7 @@ class Executor:
       if os.path.exists(env_file_path):
         env_file = open(env_file_path,'r')
         envvar_re = re.compile("^export\s*(?P<var_name>\w+)=(?P<value>\S+)")
-        envvar_dic = {}
+        envvar_dic = os.environ.copy()
         for line in env_file.readlines():
           env_match = envvar_re.match(line.strip())
           envvar_dic[env_match.group('var_name')] = env_match.group('value')
@@ -93,4 +93,8 @@ class Executor:
         self.gen_run_info()
         output.write(self.header)
         cmd = bench_to_run['run']
-        p=subprocess.Popen(cmd, shell=True, cwd=workdir_exe,stdout=output, stderr=subprocess.STDOUT, env=self.read_envvar())
+        new_env = self.read_envvar()
+        if new_env:
+          p=subprocess.Popen(cmd, shell=True, cwd=workdir_exe,stdout=output, stderr=subprocess.STDOUT, env=self.read_envvar())
+        else:
+          p=subprocess.Popen(cmd, shell=True, cwd=workdir_exe,stdout=output, stderr=subprocess.STDOUT)
