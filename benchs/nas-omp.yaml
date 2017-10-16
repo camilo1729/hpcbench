@@ -8,8 +8,18 @@ prepare: |
 workdir: "NPB3.3.1/NPB3.3-OMP/"
 benchs:
   - name: cgC
+    desc: "Benchmark cg C size with AVX instructions"
+    compile: "make cg CLASS=C F77=gfortran FFLAGS='-fopenmp -mtune=native' FLINKFLAGS=-fopenmp"
+    run: "bin/cg.C.x"
+
+  - name: cgC
     desc: "Benchmark cg C size"
-    compile: "make cg CLASS=C F77=gfortran FFLAGS=-fopenmp FLINKFLAGS=-fopenmp"
+    compile: "make cg CLASS=C F77=gfortran FFLAGS='-fopenmp' FLINKFLAGS=-fopenmp"
+    run: "bin/cg.C.x"
+
+  - name: cgC
+    desc: "Benchmark cg C size compiled with intel and optimized with AVX instructions"
+    compile: "make cg CLASS=C F77=ifort FFLAGS='-fopenmp -xHost' FLINKFLAGS=-fopenmp"
     run: "bin/cg.C.x"
 
   - name: cgB
